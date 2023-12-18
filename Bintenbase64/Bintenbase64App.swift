@@ -1,10 +1,3 @@
-//
-//  Bintenbase64App.swift
-//  Bintenbase64
-//
-//  Created by Michael Redig on 12/18/23.
-//
-
 import SwiftUI
 
 @main
