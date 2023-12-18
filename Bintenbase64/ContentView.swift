@@ -56,6 +56,8 @@ struct ContentView: View {
 				case .data(let value):
 					dataOutput(value)
 				}
+			} else {
+				Spacer()
 			}
         }
         .padding()
@@ -71,7 +73,7 @@ struct ContentView: View {
 		Button(
 			"Choose File...",
 			action: {
-				print("select file")
+				openFile()
 			})
 	}
 
@@ -85,6 +87,22 @@ struct ContentView: View {
 			action: {
 				print("save file")
 			})
+	}
+
+	private func openFile() {
+		let open = NSOpenPanel()
+		open.canChooseFiles = true
+		open.canChooseDirectories = false
+
+		let result = open.runModal()
+		guard result == .OK else { return }
+
+		guard let url = open.url else { return }
+		do {
+			vm.inputData = try Data(contentsOf: url)
+		} catch {
+			print("Error loading data: \(error)")
+		}
 	}
 }
 
