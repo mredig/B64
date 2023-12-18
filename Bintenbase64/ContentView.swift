@@ -40,9 +40,9 @@ struct ContentView: View {
 
 				switch output {
 				case .string(let value):
-					textOutput(value)
+					textOutputView(value)
 				case .data(let value):
-					dataOutput(value)
+					dataOutputView(prompt: "Save Binary File...", value)
 				}
 			} else {
 				Spacer()
@@ -131,16 +131,19 @@ struct ContentView: View {
 			})
 	}
 
-	private func textOutput(_ text: String) -> some View {
+	@ViewBuilder
+	private func textOutputView(_ text: String) -> some View {
 		TextEditor(text: .constant(text))
 			.fontDesign(.monospaced)
+
+		dataOutputView(prompt: "Save output...", Data(text.utf8))
 	}
 
-	private func dataOutput(_ data: Data) -> some View {
+	private func dataOutputView(prompt: String, _ data: Data) -> some View {
 		Button(
-			"Save Binary File...",
+			prompt,
 			action: {
-				print("save file")
+				saveFile(data)
 			})
 	}
 
@@ -157,6 +160,19 @@ struct ContentView: View {
 			vm.inputData = try Data(contentsOf: url)
 		} catch {
 			print("Error loading data: \(error)")
+		}
+	}
+
+	private func saveFile(_ data: Data) {
+		let save = NSSavePanel()
+
+		let result = save.runModal()
+		guard result == .OK else { return }
+		guard let url = save.url else { return }
+		do {
+			try data.write(to: url)
+		} catch {
+			print("Error saving data: \(error)")
 		}
 	}
 }
