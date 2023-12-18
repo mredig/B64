@@ -55,7 +55,27 @@ class ViewModel: ObservableObject {
 	}
 
 	private func updateDecodeOutput() -> Output {
-		.string(value: "Not implemented")
+		switch inputType {
+		case .file:
+			guard 
+				let inputData,
+				let unbasedData = Data(base64Encoded: inputData)
+			else { return .string(value: "Invalid data...") }
+			return stringIfPossible(from: unbasedData)
+		case .text:
+			guard let unbasedData = Data(base64Encoded: inputText) else {
+				return .string(value: "Invalid string...")
+			}
+			return stringIfPossible(from: unbasedData)
+		}
+	}
+
+	private func stringIfPossible(from data: Data) -> Output {
+		if let str = String(data: data, encoding: .utf8) {
+			return .string(value: str)
+		} else {
+			return .data(value: data)
+		}
 	}
 
 	private func encode(input: String) -> String {
