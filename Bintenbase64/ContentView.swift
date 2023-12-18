@@ -8,13 +8,24 @@ struct ContentView: View {
         VStack {
 			inputSelection
 
-			HStack {
-				modeView
+			VerticalLabel(label: "Options") {
+				HStack(alignment: .firstTextBaseline, spacing: 8) {
+					modeView
 
-				resetButton
+					switch vm.mode {
+					case .decode:
+						decodeOptions
+					case .encode:
+						encodeOptions
+					}
+
+					resetButton
+				}
 			}
+			.titleFont(.title2)
 
 			SectionTitleLabel(value: "Input")
+				.titleFont(.title2)
 
 			switch vm.inputType {
 			case .file:
@@ -25,6 +36,7 @@ struct ContentView: View {
 
 			if let output = vm.output {
 				SectionTitleLabel(value: "Output")
+					.titleFont(.title2)
 
 				switch output {
 				case .string(let value):
@@ -53,16 +65,46 @@ struct ContentView: View {
 	}
 
 	private var modeView: some View {
-		Picker(
-			"Mode",
-			selection: $vm.mode,
-			content: {
-				ForEach(Mode.allCases, id: \.self) {
-					Text($0.rawValue.localizedCapitalized)
-						.tag($0)
-				}
-			})
-		.pickerStyle(RadioGroupPickerStyle())
+		VerticalLabel(label: "Mode") {
+			Picker(
+				"",
+				selection: $vm.mode,
+				content: {
+					ForEach(Mode.allCases, id: \.self) {
+						Text($0.rawValue.localizedCapitalized)
+							.tag($0)
+					}
+				})
+			.pickerStyle(RadioGroupPickerStyle())
+		}
+		.titleFont(.title3)
+	}
+
+	private var decodeOptions: some View {
+		Toggle("Ignore Unknown Characters", isOn: $vm.decodeIgnoreUnknownCharacters)
+	}
+
+	@ViewBuilder
+	private var encodeOptions: some View {
+		VerticalLabel(label: "Line Length") {
+			Picker(
+				"",
+				selection: $vm.encodeLineLength,
+				content: {
+					ForEach(ViewModel.EncodeLineLength.allCases, id: \.self) {
+						Text($0.rawValue.localizedCapitalized)
+							.tag($0)
+					}
+				})
+			.pickerStyle(RadioGroupPickerStyle())
+		}
+		.titleFont(.title3)
+
+		VerticalLabel(label: "Line Endings") {
+			Toggle("Line Feed", isOn: $vm.encodeLineEndLineFeed)
+			Toggle("Carriage Return", isOn: $vm.encodeLineEndCarriageReturn)
+		}
+		.titleFont(.title3)
 	}
 
 	private var resetButton: some View {
