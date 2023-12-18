@@ -6,36 +6,12 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-			Picker(
-				"Input Type",
-				selection: $vm.inputType,
-				content: {
-					ForEach(InputType.allCases, id: \.self) {
-						Text($0.rawValue.localizedCapitalized)
-							.tag($0)
-					}
-				})
-			.pickerStyle(SegmentedPickerStyle())
+			inputSelection
 
 			HStack {
-				Picker(
-					"Mode",
-					selection: $vm.mode,
-					content: {
-						ForEach(Mode.allCases, id: \.self) {
-							Text($0.rawValue.localizedCapitalized)
-								.tag($0)
-						}
-					})
-				.pickerStyle(RadioGroupPickerStyle())
+				modeView
 
-				Button(
-					"Reset",
-					action: {
-						vm.inputText = ""
-						vm.inputData = nil
-						vm.output = nil
-					})
+				resetButton
 			}
 
 			SectionTitleLabel(value: "Input")
@@ -63,6 +39,42 @@ struct ContentView: View {
         .padding()
     }
 
+	private var inputSelection: some View {
+		Picker(
+			"Input Type",
+			selection: $vm.inputType,
+			content: {
+				ForEach(InputType.allCases, id: \.self) {
+					Text($0.rawValue.localizedCapitalized)
+						.tag($0)
+				}
+			})
+		.pickerStyle(SegmentedPickerStyle())
+	}
+
+	private var modeView: some View {
+		Picker(
+			"Mode",
+			selection: $vm.mode,
+			content: {
+				ForEach(Mode.allCases, id: \.self) {
+					Text($0.rawValue.localizedCapitalized)
+						.tag($0)
+				}
+			})
+		.pickerStyle(RadioGroupPickerStyle())
+	}
+
+	private var resetButton: some View {
+		Button(
+			"Reset",
+			action: {
+				vm.inputText = ""
+				vm.inputData = nil
+				vm.output = nil
+			})
+	}
+
 	@ViewBuilder
 	private var textInput: some View {
 		TextEditor(text: $vm.inputText)
@@ -79,6 +91,7 @@ struct ContentView: View {
 
 	private func textOutput(_ text: String) -> some View {
 		TextEditor(text: .constant(text))
+			.fontDesign(.monospaced)
 	}
 
 	private func dataOutput(_ data: Data) -> some View {
