@@ -1,26 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
-	
-	@State
-	private var inputType: InputType = .text
-
-	@State
-	private var mode: Mode = .encode
-
-	@State
-	private var inputText = ""
-	@State
-	private var inputData: Data?
-
-	@State
-	private var output: Output?
+	@StateObject
+	private var vm = ViewModel()
 
     var body: some View {
         VStack {
 			Picker(
 				"Input Type",
-				selection: $inputType,
+				selection: $vm.inputType,
 				content: {
 					ForEach(InputType.allCases, id: \.self) {
 						Text($0.rawValue.localizedCapitalized)
@@ -32,7 +20,7 @@ struct ContentView: View {
 			HStack {
 				Picker(
 					"Mode",
-					selection: $mode,
+					selection: $vm.mode,
 					content: {
 						ForEach(Mode.allCases, id: \.self) {
 							Text($0.rawValue.localizedCapitalized)
@@ -44,22 +32,22 @@ struct ContentView: View {
 				Button(
 					"Reset",
 					action: {
-						inputText = ""
-						inputData = nil
-						output = nil
+						vm.inputText = ""
+						vm.inputData = nil
+						vm.output = nil
 					})
 			}
 
 			SectionTitleLabel(value: "Input")
 
-			switch inputType {
+			switch vm.inputType {
 			case .file:
 				fileInput
 			case .text:
 				textInput
 			}
 
-			if let output {
+			if let output = vm.output {
 				SectionTitleLabel(value: "Output")
 
 				switch output {
@@ -71,14 +59,11 @@ struct ContentView: View {
 			}
         }
         .padding()
-		.onChange(of: inputText) { newValue in
-			output = .string(value: newValue)
-		}
     }
 
 	@ViewBuilder
 	private var textInput: some View {
-		TextEditor(text: $inputText)
+		TextEditor(text: $vm.inputText)
 	}
 
 	@ViewBuilder
