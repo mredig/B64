@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct Bintenbase64App: App {
+struct B64App: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
