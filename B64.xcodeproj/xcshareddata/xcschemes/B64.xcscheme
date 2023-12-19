@@ -17,7 +17,7 @@
                BlueprintIdentifier = "33429F2B2B30383E00DB6148"
                BuildableName = "B64.app"
                BlueprintName = "B64"
-               ReferencedContainer = "container:b64.xcodeproj">
+               ReferencedContainer = "container:B64.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,7 +46,7 @@
             BlueprintIdentifier = "33429F2B2B30383E00DB6148"
             BuildableName = "B64.app"
             BlueprintName = "B64"
-            ReferencedContainer = "container:b64.xcodeproj">
+            ReferencedContainer = "container:B64.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -63,7 +63,7 @@
             BlueprintIdentifier = "33429F2B2B30383E00DB6148"
             BuildableName = "B64.app"
             BlueprintName = "B64"
-            ReferencedContainer = "container:b64.xcodeproj">
+            ReferencedContainer = "container:B64.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
