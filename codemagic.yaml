@@ -8,7 +8,7 @@ workflows:
                 - keychain
                 # - notifications
                 - personalWasabi
-                - sparkle
+                # - sparkle
             vars:
                 CICD_SUPPORT_DIR: "CICD_Support"
                 BUNDLE_ID: "com.redeggproductions.B64"
