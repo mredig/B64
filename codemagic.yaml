@@ -19,7 +19,7 @@ workflows:
                 TARGET_NAME: "B64.app"
                 CM_CLONE_DEPTH: 1
                 SPARKLE_DOWNLOAD_URL: "https://github.com/sparkle-project/Sparkle/releases/download/2.6.0/Sparkle-for-Swift-Package-Manager.zip"
-                FINAL_PACKAGE_NAME_PREFIX: B64
+                FINAL_PACKAGE_NAME_PREFIX: B64_
         scripts:
           - name: Establish Current Config
             script: |
